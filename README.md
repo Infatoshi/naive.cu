@@ -2,7 +2,7 @@
 
 A minimal character-level GPT implementation that demonstrates integrating custom CUDA kernels into PyTorch's autograd system. This repository contains both **training** and **inference** components with hybrid CUDA implementations - using custom CUDA operations where they work reliably, and PyTorch operations where needed for stability.
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 naive.cu/
@@ -20,7 +20,7 @@ naive.cu/
 └── LICENSE
 ```
 
-## 📚 Components
+## Components
 
 ### Training Component
 - **Character-level GPT training** with custom CUDA kernels
@@ -34,7 +34,7 @@ naive.cu/
 - **Mixture of Experts (MoE)**: 8 experts, top-2 routing
 - **Optimized kernels**: GEMV operations for inference speedup
 
-## 🔧 Setup & Installation
+## Setup & Installation
 
 ### Prerequisites
 - **CUDA-compatible GPU** (RTX 30xx+ recommended)
@@ -100,7 +100,7 @@ python train.py
 python inference.py
 ```
 
-## 🎯 What You'll See When Running
+## What You'll See When Running
 
 ### Training Output
 ```
@@ -144,7 +144,7 @@ Top-k experts: 2
 ✓ SUCCESS: MoE implementations match within tolerance! Speedup: 1.32x
 ```
 
-## ⚠️ Known Pain Points & Troubleshooting
+## Pain Points & Troubleshooting
 
 ### Training Setup Issues
 
@@ -194,7 +194,7 @@ self.custom_matmul = torch.nn.functional.linear  # PyTorch equivalent
    - **Symptom**: Different outputs on identical inputs due to floating-point precision
    - **Normal**: Expected with MoE routing - verify outputs are semantically similar
 
-## 🏛️ Architecture Details
+## Architecture Details
 
 ### Custom CUDA Operations
 
@@ -216,19 +216,19 @@ self.custom_matmul = torch.nn.functional.linear  # PyTorch equivalent
 
 This codebase embraces **hybrid implementations** rather than pure CUDA:
 
-✅ **Custom CUDA where reliable:**
+ **Custom CUDA where reliable:**
 - Matrix multiplications (well-established algorithms)
 - Element-wise operations (simple, predictable)
 - Standard normalization operations
 
-⚠️ **PyTorch where complex:**
+ **PyTorch where complex:**
 - Complex attention mechanisms (until fully debugged)
 - Backward passes (gradient flow verification needed)
 - Operations with dynamic shapes
 
 **Why hybrid?** CUDA kernel debugging is extremely time-intensive. Using PyTorch for problematic operations allows you to accelerate the 80% of computation that works reliably while maintaining correctness.
 
-## 🔬 Hyperparameters
+## Hyperparameters
 
 ### Training
 - **Batch Size**: 16
@@ -250,7 +250,7 @@ This codebase embraces **hybrid implementations** rather than pure CUDA:
 - **Top-K Experts**: 2
 - **Max New Tokens**: 200
 
-## 🧪 Testing & Verification
+## Testing & Verification
 
 ### Numerical Accuracy Testing
 ```python
@@ -271,7 +271,7 @@ with torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CUDA]) a
 print(prof.key_averages().table(sort_by="cuda_time_total"))
 ```
 
-## 📖 Advanced Documentation
+## Advanced Documentation
 
 ### Training Debugging Guide
 Located in `training/docs/debugging_guide.md` - comprehensive methodology for:
@@ -286,7 +286,7 @@ Located in `training/docs/debugging_guide.md` - comprehensive methodology for:
 - **Document assumptions**: Note tensor layout expectations and limitations
 - **Use PyTorch as reference**: Always verify against known-good implementations
 
-## 🎓 Educational Value
+## Educational Value
 
 This repository serves as a **practical CUDA learning resource** with:
 
@@ -297,23 +297,7 @@ This repository serves as a **practical CUDA learning resource** with:
 
 **Perfect for**: Students/researchers learning CUDA programming in the context of modern deep learning frameworks.
 
-## 📄 License
+## License
 
 This project is released under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## 🤝 Citation
-
-If you use this code in your research or teaching, please consider citing:
-
-```bibtex
-@misc{cuda-transformer-naive,
-  title={Character-level Transformer: Training \& Inference with Custom CUDA Kernels},
-  author={Your Name},
-  year={2024},
-  url={https://github.com/your-username/naive.cu}
-}
-```
-
----
-
-**Note**: This is a "hacky Karpathi-style repo" - educational code prioritizing clarity and learning over production optimization. Expect some rough edges and focus on understanding the concepts rather than perfect engineering practices.
